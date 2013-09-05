@@ -4,7 +4,6 @@
 	"keywords": ["framework", "laravel"],
 	"require": {
 		"laravel/framework": "4.0.*",
-		"twitter/bootstrap":"*",
 		"way/generators": "dev-master"
 	},
 	"autoload": {
