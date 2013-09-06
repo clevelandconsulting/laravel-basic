@@ -13,7 +13,7 @@
 </head>
 <body>
 
-	<div class="navbar navbar-inverse">
+	<div class="navbar navbar-inverse navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -26,6 +26,12 @@
         <div class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
             @if(Auth::check())
+            	@if (Request::is('myNotes'))
+                <li class='active'>
+                @else
+                <li>
+                @endif
+                {{ HTML::link('myNotes', 'My Notes' ) }}</li>
             	@if (Request::is('profile'))
                 <li class='active'>
                 @else
@@ -46,7 +52,7 @@
       </div>
     </div>
 
-	<div class="container">
+	<div style="margin-top: 61px" class="container">
 		
 	        <!-- check for flash notification message -->
 	        @if(Session::has('flash_notice'))
