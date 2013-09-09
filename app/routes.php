@@ -24,10 +24,30 @@ Route::get('profile', array('as'=>'profile', "uses"=>"ProfileController@showProf
 
 /*Routes for notes*/
 Route::group(array('prefix'=>'myNotes', 'before'=>'auth'), function() {
-	Route::get('',array('as'=>'mynotes','uses'=>'MyNotesController@showAll'))->before('auth');
-	Route::get('/create',array('as'=>'makenote','uses'=>'MyNotesController@create'))->before('auth');
-	Route::post('/add', array('as'=>'addnote','uses'=>'MyNotesController@addFromInput'))->before('auth');
-	Route::get('/{id}','MyNotesController@showOne')->before('auth');
+
+	/*display all notes for the user */
+	Route::get('',array('as'=>'mynotes','uses'=>'MyNotesController@showAll'));
+	
+	/*display the form for a making a new note*/
+	Route::get('/create',array('as'=>'makenote','uses'=>'MyNotesController@create'));
+	
+	/*handle the posting of a new note*/
+	Route::post('', array('as'=>'addnote','uses'=>'MyNotesController@addFromInput'));
+	
+	//Routes for dealing with a single note
+	Route::group(array('prefix'=>'{id}'), function() {
+		//display
+		Route::get('',array('as'=>'shownote','uses'=>'MyNotesController@showOne'));
+		
+		//update
+		Route::put('', array('as'=>'updatenote','uses'=>'MyNotesController@updateFromInput'));
+		
+		//delete
+		Route::delete('', array('as'=>'removenote', 'uses'=>'MyNotesController@remove'));
+		
+		//display edit form
+		Route::get('modify', array('as'=>'modifynote','uses'=>'MyNotesController@modify'));
+	});
 });
 
 /*API ROUTES*/

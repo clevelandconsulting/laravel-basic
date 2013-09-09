@@ -62,6 +62,8 @@
 		        </div>
 	        @endif
 	
+			@include('layout.breadcrumbs')
+	
 	        @yield('content')
 		
     </div><!-- end container -->
