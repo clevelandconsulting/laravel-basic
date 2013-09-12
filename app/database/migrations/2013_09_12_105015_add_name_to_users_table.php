@@ -13,8 +13,8 @@ class AddNameToUsersTable extends Migration {
 	public function up()
 	{
 		Schema::table('users', function(Blueprint $table) {
-			$table->string('first_name', 32);
-			$table->string('last_name', 48);
+			$table->string('first_name', 32)->nullable();
+			$table->string('last_name', 48)->nullable();
 		});
 	}
 
