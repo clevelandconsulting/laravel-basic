@@ -21,3 +21,4 @@ Route::get('logout',array('as'=>'logout',"uses"=>"LoginController@doLogout"))->b
 
 /*Routes for the Profile*/
 Route::get('profile', array('as'=>'profile', "uses"=>"ProfileController@showProfile"))->before('auth');
+Route::put('updateuser', array('as'=>'updateuser', 'uses'=>'ProfileController@updateProfile'))->before('auth');

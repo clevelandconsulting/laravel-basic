@@ -19,5 +19,17 @@ class ProfileController extends BaseController {
 	{
 		return View::make('profile');
 	}
+	
+	public function updateProfile()
+	{
+	
+		Auth::user()->first_name = Input::get('firstName');
+		Auth::user()->last_name = Input::get('lastName');
+		Auth::user()->email = Input::get('email');
+		
+		Auth::user()->save();
+		
+		return Redirect::route('home')->with('flash_notice', 'Profile has been updated.');
+	}
 
 }
