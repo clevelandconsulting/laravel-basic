@@ -1,0 +1,34 @@
+<h1>Login</h1>
+
+<!--
+<div class='alert alert-danger alert-dismissable' ng-show="displayFlash">
+	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+	<strong>Doh!</strong> {{ message }}
+</div>
+-->
+<!--
+<div flash-alert active-class="in" class="alert alert-dismissable fade" duration="0" ng-show="displayFlash">
+	<button type="button" class="close" ng-click="hideFlash()" aria-hidden="true">&times;</button>
+    <strong class="alert-heading">{{heading}}</strong>
+    <span class="alert-message">{{flash.message}}</span>
+</div>
+-->
+<div flash-alert active-class="in active" class="alert alert-dismissable fade">
+    <strong class="alert-heading">{{flashHeader}}</strong>
+    <span class="alert-message">{{flash.message}}</span>
+</div>
+<form id='login' class='form' role='form' data-ng-submit="login(credentials)">
+<p>
+	<label for='username'>Username</label>
+	<input type='text' name='username' id='username' placeholder="Username" class='form-control' data-ng-model='credentials.username' required/>
+	
+</p>
+<p>
+	<label for='password'>Password</label>
+	<input type='password' name='password' id='password' placeholder="Password" class='form-control' data-ng-model='credentials.password' required/>
+	
+</p>
+<p>
+	<button type='submit' class='btn btn-default'>Login</button>
+</p>
+</form>
