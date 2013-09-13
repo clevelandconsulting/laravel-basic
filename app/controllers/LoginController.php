@@ -21,7 +21,7 @@ class LoginController extends BaseController {
 
 	public function doLogin()
 	{
-			$user = array(
+		$user = array(
 			'username'=>Input::get('username'),
 			'password'=>Input::get('password')
 		);
@@ -37,6 +37,26 @@ class LoginController extends BaseController {
 		Auth::logout();
 	
 		return Redirect::route('home')->with('flash_notice','You are successfully logged out.');
+	}
+	
+	public function authLogin()
+	{
+		$user = array(
+			'username'=>Input::get('username'),
+			'password'=>Input::get('password')
+		);
+		
+		if ( Auth::attempt($user)) {
+			return Response::json(array('flash'=>'You made it!', $user),200);
+		}
+		
+		return Response::json(array('flash'=>'Your username/password combination was incorrect!'), 401);
+	}
+	
+	public function authLogout() {
+		Auth::logout();
+	
+		return Response::json(array('flash'=>'You\'re out!'),200);
 	}
 
 }
