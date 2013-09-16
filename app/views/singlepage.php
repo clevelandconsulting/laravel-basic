@@ -35,9 +35,16 @@
 	<div style="margin-top: 61px" class="container" data-ng-view>
 
     </div><!-- end container -->   
-    <script type='text/javascript' src='js/underscore-min.js'></script>
-	<script type='text/javascript' src='js/angular.min.js'></script>
-	<script type='text/javascript' src='js/angular-flash.min.js'></script>
+    <script type='text/javascript' src='js/vendor/underscore-min.js'></script>
+	<script type='text/javascript' src='js/vendor/angular.min.js'></script>
+	<script type='text/javascript' src='js/vendor/angular-flash.min.js'></script>
 	<script type='text/javascript' src='js/app.js'></script>
+	<script type='text/javascript' src='js/services/sessionService.js'></script>
+	<script type='text/javascript' src='js/services/authenticationService.js'></script>
+	<script type='text/javascript' src='js/services/navigationService.js'></script>
+	<script type='text/javascript' src='js/controllers/navigationCtrl.js'></script>
+	<script type='text/javascript' src='js/controllers/homeCtrl.js'></script>
+	<script type='text/javascript' src='js/controllers/loginCtrl.js'></script>
+	<script type='text/javascript' src='js/controllers/profileCtrl.js'></script>
 </body>
 </html>

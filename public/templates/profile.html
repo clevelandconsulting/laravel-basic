@@ -1,0 +1,26 @@
+
+  <h1>Profile for "{{ user.username }}"</h1>
+  <div flash-alert active-class="in active" class="alert alert-dismissable fade">
+    <strong class="alert-heading">{{flashHeader}}</strong>
+    <span class="alert-message">{{flash.message}}</span>
+  </div>
+  <div class="container">
+	<div class="row">
+		<form role="form" data-ng-submit="update(user)">
+			<div class="form-group">
+				<label for='firstname'>First Name</label>
+				<input type='text' name='firstname' id='firstname' placeholder="First Name" class='form-control' data-ng-model='user.first_name' />
+			</div>
+			<div class="form-group">
+				<label for='lastname'>Last Name</label>
+				<input type='text' name='lastname' id='lastname' placeholder="Last Name" class='form-control' data-ng-model='user.last_name' />
+			</div>
+			<div class="form-group">
+				<label for='email'>Email</label>
+				<input type='text' name='email' id='email' placeholder="Email" class='form-control' data-ng-model='user.email' required/>
+			</div>
+			<button class='btn btn-primary' type='submit'>Update Profile</button>
+		</form>
+	</div>
+	
+</div>

@@ -14,13 +14,25 @@ var app = angular.module("myApp",['angular-flash.service', 'angular-flash.flash-
     controller: 'LoginController'
   });
   
+  $routeProvider.when('/profile', {
+    templateUrl: 'templates/profile.html',
+    controller: 'ProfileController',
+    resolve: {
+	    "user": function($http, $location) {
+	    	debugger;
+	    	if ( $location.path() == '/profile') return $http.get('/api/v1/user');
+	    	return null;
+	    }
+    }
+  });
+  
   $routeProvider.when('/404', {
 	  templateUrl: 'templates/404.html',
-	  resolve: {
+	  /*resolve: {
 	    "expiry": function($http) {
 		    return $http.get('/expiry');
 	    }
-    }
+	  }*/
   });
 
   $routeProvider.otherwise({ 
@@ -68,6 +80,7 @@ angular.module("myApp").run(function($rootScope,$location,AuthenticationService,
 	
 	$rootScope.$on('$routeChangeStart', function(event, next, current) {
 		if(!_(routesWithoutAuth).contains($location.path()) && !AuthenticationService.isLoggedIn()) {
+			debugger;
 			flash.error = 'You need to login!';
 			$rootScope.flashHeader = 'Doh!';
 			$location.path('/login');
@@ -80,138 +93,4 @@ angular.module("myApp").run(function($rootScope,$location,AuthenticationService,
 		}
 	});
 	
-});
-
-//service that handles client side session storage
-angular.module("myApp").factory("SessionService", function() {
-	return {
-		set: function(key,value) {
-			return sessionStorage.setItem(key,value);
-		},
-		get: function(key) {
-			return sessionStorage.getItem(key);
-		},
-		unset: function(key) {
-			return sessionStorage.removeItem(key);
-		}
-	}
-});
-
-//service to handle authentication
-angular.module("myApp").factory("AuthenticationService", function($http, flash, SessionService) {
-	var cacheSession = function() {
-		SessionService.set('authenticated',true);
-	};
-	var unCacheSession = function() {
-		SessionService.unset('authenticated');
-	};
-	var checkSession = function() {
-		return SessionService.get('authenticated') == "true";
-	}
-	
-	return {
-		login: function(credentials) {
-			var p = $http.post('api/v1/auth/login',credentials)
-			.success(function(data) {
-				cacheSession();
-				flash.success = data.flash;
-			})
-			.error(function(data) {
-				flash.error = data.flash;
-				
-			});
-			return p;
-		},
-		logout: function() {
-			
-			var p = $http.get('api/v1/auth/logout')
-			.success(unCacheSession);
-			
-			return p;
-		},
-		isLoggedIn: function() {
-			return checkSession();
-		}
-	}
-});
-
-
-//service to provide the navigation paths
-angular.module("myApp").factory("NavigationService", function($location,AuthenticationService) {
-	var LoggedInPaths = [{ name: 'Auth Demo', url: '/home' }, { name: 'Profile', url: '/profile'}];
-	var GuestPaths = [{ name: 'Login', url: '/login'} ];
-	
-	var obj = {
-		isActive: function(current) { 
-					return ( $location.path() === current ? 'active' : '' ); 
-					},
-		getPaths: function() {
-						return AuthenticationService.isLoggedIn() ? LoggedInPaths : GuestPaths;
-					}
-	};
-	
-	return obj;
-
-});
-
-angular.module("myApp").controller("NavigationController", function($scope,NavigationService) {
-	$scope.n = NavigationService;
-});
-
-
-angular.module("myApp").controller('HomeController', function($scope, $location, AuthenticationService) {
-  $scope.title = "Home";
-  
-  $scope.logout = function() {
-	  AuthenticationService.logout().success( function() {
-	  
-	  	$location.path('/login');
-	  
-	  });
-  }
-
-});
-
-angular.module("myApp").controller('LoginController', function($scope, $location, AuthenticationService, flash) {
-  $scope.title = "Login";
-  $scope.credentials = { username: '', password: '' };
-  
-  $scope.login = function(cred) {
-
-  	  // START HACK 
-  	  // to handle the browser autocompletes (angularjs doesn't read these into the scope's model)
-  	  
-  	  if ( cred.username === '' ) {
-  	    var un = document.querySelector('#username');
-  	  	cred.username = angular.element(un).val();
-  	  }
-  	  if ( cred.password === '' ) {
-  	  	var pw = document.querySelector('#password');
-  	  	cred.password = angular.element(pw).val();
-  	  }
-  	  
-  	  // END HACK
-  	  
-  	  if ( ( cred.username !== '' && cred.username !== undefined ) && ( cred.password !== '' && cred.password !== undefined ) ) {
-
-		  var r = AuthenticationService.login(cred);
-	  
-		  r.success(function(data){
-		  	$scope.flashHeader = 'Yeah!';
-			$location.path('/home');
-		  });
-		  r.error(function(data) {
-		  	$scope.flashHeader = 'Doh!';
-		  });
-		  return r;
-		  
-	  } else {
-
-	  	  $scope.flashHeader = 'Hey!';
-		  flash.error = "You must fill out both a username and a password.";
-		  return null;
-		  
-	  }
-	  
-  }
 });
