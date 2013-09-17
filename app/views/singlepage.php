@@ -18,14 +18,15 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <span class='navbar-brand active'>Single Page Demo</span>
+          <a class='navbar-brand active' href='/#/'>Single Page Demo</a>
         </div>
         
         <div class="collapse navbar-collapse">
           <ul class="nav navbar-nav" data-ng-controller='NavigationController'>
-          	<li data-ng-repeat="path in n.getPaths()" class="{{ n.isActive(path.url) }}">
-            	<a href="#{{ path.url }}">{{ path.name }}</a>
+          	<li data-ng-repeat="path in n.getPaths()" class="{{ n.isActive(path) }}">
+            	<a href='/#{{ path.url }}'>{{ path.name }}</a>
             </li>
+            <li data-ng-switch on="loggedIn()"><a ng-switch-when="true" data-ng-click="logout()">Logout</a>
           </ul>
         </div><!--/.nav-collapse -->
         

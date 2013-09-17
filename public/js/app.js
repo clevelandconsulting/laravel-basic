@@ -4,7 +4,7 @@ var app = angular.module("myApp",['angular-flash.service', 'angular-flash.flash-
   flashProvider.errorClassnames.push('alert-danger'); 
   //$locationProvider.html5Mode(true);
 
-  $routeProvider.when('/home', {
+  $routeProvider.when('/', {
     templateUrl: 'templates/home.html',
     controller: 'HomeController'
   });
@@ -74,15 +74,17 @@ angular.module("myApp").config(function($httpProvider) {
 })
 
 angular.module("myApp").run(function($rootScope,$location,AuthenticationService,flash) {
-	var routesWithoutAuth = ['/login'];
+	var routesWithoutAuth = ['/login', '/404', '/'];
 	
 	// Determine if the user is authenticated to access parts of the system
+	debugger;
 	
 	$rootScope.$on('$routeChangeStart', function(event, next, current) {
 		if(!_(routesWithoutAuth).contains($location.path()) && !AuthenticationService.isLoggedIn()) {
-			debugger;
-			flash.error = 'You need to login!';
-			$rootScope.flashHeader = 'Doh!';
+			if ($location.path() !== '' ) {
+				flash.error = 'You need to login!';
+				$rootScope.flashHeader = 'Doh!';
+			}
 			$location.path('/login');
 		}
 		else {
